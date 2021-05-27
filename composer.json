@@ -1,0 +1,40 @@
+{
+	"name": "aw-studio/laravel-redirects",
+	"description": "An easy solution to handle redirects in your Laravel application",
+	"require": {
+		"php": "^8.0",
+		"illuminate/database": "^8.43",
+		"illuminate/support": "^8.43",
+		"aw-studio/cshelper": "dev-main"
+	},
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Lukas Heller",
+			"email": "lukas@aw-studio.de"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"AwStudio\\LaravelRedirects\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"AwStudio\\LaravelRedirects\\Tests\\": "tests"
+		}
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"AwStudio\\LaravelRedirects\\RedirectsServiceProvider"
+			]
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"require-dev": {
+		"orchestra/testbench": "^6.18",
+		"phpunit/phpunit": "^9.5"
+	}
+}
