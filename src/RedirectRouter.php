@@ -1,6 +1,6 @@
 <?php
 
-namespace AwStudio\LaravelRedirects;
+namespace AwStudio\Redirects;
 
 use Exception;
 use Illuminate\Routing\Router;

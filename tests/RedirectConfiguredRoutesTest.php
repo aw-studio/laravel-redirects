@@ -1,6 +1,6 @@
 <?php
 
-namespace AwStudio\LaravelRedirects\Tests;
+namespace AwStudio\Redirects\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;

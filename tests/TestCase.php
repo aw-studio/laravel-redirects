@@ -1,9 +1,9 @@
 <?php
 
-namespace AwStudio\LaravelRedirects\Tests;
+namespace AwStudio\Redirects\Tests;
 
-use AwStudio\LaravelRedirects\Middleware\RedirectRoutesMiddleware;
-use AwStudio\LaravelRedirects\RedirectsServiceProvider;
+use AwStudio\Redirects\Middleware\RedirectRoutesMiddleware;
+use AwStudio\Redirects\RedirectsServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Route;

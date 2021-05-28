@@ -1,8 +1,8 @@
 <?php
 
-namespace AwStudio\LaravelRedirects\Tests;
+namespace AwStudio\Redirects\Tests;
 
-use AwStudio\LaravelRedirects\Models\Redirect;
+use AwStudio\Redirects\Models\Redirect;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use InvalidArgumentException;
 

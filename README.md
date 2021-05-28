@@ -13,7 +13,7 @@ composer require aw-studio/laravel-redirects
 Publish the packages migrations and config:
 
 ```sh
-php artisan vendor:publish --provider="AwStudio\LaravelRedirects\RedirectsServiceProvider"
+php artisan vendor:publish --provider="AwStudio\Redirects\RedirectsServiceProvider"
 ```
 
 Run the migration

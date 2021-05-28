@@ -16,18 +16,18 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"AwStudio\\LaravelRedirects\\": "src/"
+			"AwStudio\\Redirects\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"AwStudio\\LaravelRedirects\\Tests\\": "tests"
+			"AwStudio\\Redirects\\Tests\\": "tests"
 		}
 	},
 	"extra": {
 		"laravel": {
 			"providers": [
-				"AwStudio\\LaravelRedirects\\RedirectsServiceProvider"
+				"AwStudio\\Redirects\\RedirectsServiceProvider"
 			]
 		}
 	},

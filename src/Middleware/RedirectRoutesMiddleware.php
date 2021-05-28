@@ -1,8 +1,8 @@
 <?php
 
-namespace AwStudio\LaravelRedirects\Middleware;
+namespace AwStudio\Redirects\Middleware;
 
-use AwStudio\LaravelRedirects\RedirectRouter;
+use AwStudio\Redirects\RedirectRouter;
 use Closure;
 use Illuminate\Http\Request;
 

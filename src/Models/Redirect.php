@@ -1,6 +1,6 @@
 <?php
 
-namespace AwStudio\LaravelRedirects\Models;
+namespace AwStudio\Redirects\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
