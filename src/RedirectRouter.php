@@ -29,7 +29,7 @@ class RedirectRouter
     public function getRedirectFor(Request $request)
     {
         if ($redirect = $this->shouldRedirectFromDatabase($request)) {
-            $this->handleDatabaseRedirect($request, $redirect);
+            return $this->handleDatabaseRedirect($request, $redirect);
         }
 
         return $this->handleConfiguredRedirect($request);
