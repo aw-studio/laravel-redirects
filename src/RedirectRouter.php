@@ -2,10 +2,12 @@
 
 namespace AwStudio\Redirects;
 
+use AwStudio\Redirects\Models\Redirect;
+use Carbon\CarbonInterval;
 use Exception;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class RedirectRouter
 {
@@ -28,50 +30,27 @@ class RedirectRouter
      */
     public function getRedirectFor(Request $request)
     {
-        if ($redirect = $this->shouldRedirectFromDatabase($request)) {
-            return $this->handleDatabaseRedirect($request, $redirect);
+        if (! $redirects = $this->getRedirects()) {
+            return;
         }
 
-        return $this->handleConfiguredRedirect($request);
+        return $this->handleRedirect($request, $redirects);
     }
 
     /**
-     * Checks if a redirect exists in the database for this request and returns
-     * the matching entry/entries.
-     *
-     * @param  Requests   $request
-     * @return mixed|null
-     */
-    protected function shouldRedirectFromDatabase(Request $request)
-    {
-        $redirect = app('redirect.model')->firstValidOrNull($request->path());
-
-        if (! $redirect && $request->getQueryString()) {
-            $path = $request->path() . '?' . $request->getQueryString();
-            $redirect = app('redirect.model')->firstValidOrNull($path);
-        }
-
-        if (! $redirect && count(explode('/', $request->path())) > 1) {
-            $redirect = app('redirect.model')->findAllValidStartingWith($request->path());
-        }
-
-        return $redirect;
-    }
-
-    /**
-     * Handles the redirect from database entry.
+     * Handles the redirect for a given requst.
      *
      * @param  Request $request
-     * @param  mixed   $redirects
+     * @param  array   $redirects
      * @return void
      */
-    protected function handleDatabaseRedirect(Request $request, $redirects)
+    protected function handleRedirect(Request $request, $redirects)
     {
-        $redirects->each(function ($redirect) {
-            $this->router->get($redirect->from_url, function () use ($redirect) {
-                $redirectUrl = $this->resolveRouterParameters($redirect->to_url);
+        collect($redirects)->each(function ($redirect) {
+            $this->router->get($redirect['from_url'], function () use ($redirect) {
+                $redirectUrl = $this->resolveRouterParameters($redirect['to_url']);
 
-                return redirect($redirectUrl, $redirect->http_status_code);
+                return redirect($redirectUrl, $redirect['http_status_code']);
             });
         });
 
@@ -83,58 +62,34 @@ class RedirectRouter
     }
 
     /**
-     * Handles redirects specified in the config file.
+     * Get all comnfigured redirects from database, from package config and
+     * merge them into a uniform array.
      *
-     * @param  Request $request
-     * @return void
+     * @return array
      */
-    protected function handleConfiguredRedirect(Request $request)
+    protected function getRedirects()
     {
-        $redirects = config('redirects.redirects');
+        $ttl = CarbonInterval::minutes(60)->totalMinutes;
 
-        collect($redirects)->each(function ($redirects, $missingUrl) {
-            $this->router->get($missingUrl, function () use ($redirects, $missingUrl) {
-                $redirectUrl = $this->determineConfigRedirectUrl($redirects);
-                $statusCode = $this->determineConfigRedirectStatusCode($redirects);
+        return Cache::remember('redirects', $ttl, function () {
+            $databaseRedirects = Redirect::whereActive()
+                ->get(['from_url', 'to_url', 'http_status_code'])
+                ->toArray();
 
-                return redirect($redirectUrl, $statusCode);
-            });
+            $configRedirects = [];
+            foreach (config('redirects.redirects') as $from => $item) {
+                $configRedirects[] = [
+                    'from_url'         => $from,
+                    'to_url'           => is_array($item) ? $item[0] : $item,
+                    'http_status_code' => is_array($item) ? $item[1] : 301,
+                ];
+            }
+
+            return array_merge(
+                $databaseRedirects,
+                $configRedirects
+            );
         });
-
-        try {
-            return $this->router->dispatch($request);
-        } catch (Exception $e) {
-            return;
-        }
-    }
-
-    /**
-     * Determines how URL route parameters should be resolved.
-     *
-     * @param  array|string $redirects
-     * @return string
-     */
-    protected function determineConfigRedirectUrl($redirects)
-    {
-        if (is_array($redirects)) {
-            return $this->resolveRouterParameters($redirects[0]);
-        }
-
-        return $this->resolveRouterParameters($redirects);
-    }
-
-    /**
-     * Gets the response code if an array was passed as input.
-     * Otherwise 301 is returned by default.
-     *
-     * @param  array|string $redirects
-     * @return int
-     */
-    protected function determineConfigRedirectStatusCode($redirects)
-    {
-        return is_array($redirects)
-                ? $redirects[1]
-                : Response::HTTP_MOVED_PERMANENTLY;
     }
 
     /**
