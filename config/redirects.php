@@ -14,6 +14,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Cache duration
+    |--------------------------------------------------------------------------
+    | This option controls how long redirects are stored in cache, before the
+    | database is queried again. Adding or updating a database redirect will
+    | reset this interval.
+    | The setting is specified in seconds. Defaults to 24 hours.
+    |
+    |
+    */
+
+    'ttl' => 60 * 60 * 24,
+
+    /*
+    |--------------------------------------------------------------------------
     | Preconfigured redirects
     |--------------------------------------------------------------------------
     |

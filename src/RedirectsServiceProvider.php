@@ -37,7 +37,7 @@ class RedirectsServiceProvider extends ServiceProvider
         $this->app->bind(RedirectRouter::class, function ($app) {
             $router = new Router($app['events']);
 
-            return new RedirectRouter($router);
+            return new RedirectRouter($router, $app['cache']);
         });
 
         $this->publishes([
