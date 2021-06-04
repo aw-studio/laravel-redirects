@@ -7,6 +7,7 @@ use Carbon\CarbonInterval;
 use Exception;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Request;
 
 class RedirectRouter
@@ -30,11 +31,32 @@ class RedirectRouter
      */
     public function getRedirectFor(Request $request)
     {
+        if ($this->requestIsBlockedForRedirect($request)) {
+            return;
+        }
+
         if (! $redirects = $this->getRedirects()) {
             return;
         }
 
         return $this->handleRedirect($request, $redirects);
+    }
+
+    /**
+     * Determine if a request is blocked for redirection.
+     *
+     * @param  Request $request
+     * @return bool
+     */
+    protected function requestIsBlockedForRedirect($request)
+    {
+        foreach (config('redirects.blocklist') as $blocked) {
+            if (Str::contains($blocked, $request->path())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
