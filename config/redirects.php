@@ -25,4 +25,18 @@ return [
         // '/old' => '/new',
         // 'blog/{url}' => 'news/{url}',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Redirect blocklist
+    |--------------------------------------------------------------------------
+    |
+    | You may configure routes that should never be redirected, such as backend
+    | routes or similar.
+    |
+    */
+
+    'blocklist' => [
+        // '/admin',
+    ],
 ];
