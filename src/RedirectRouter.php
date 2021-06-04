@@ -62,8 +62,8 @@ class RedirectRouter
     }
 
     /**
-     * Get all comnfigured redirects from database, from package config and
-     * merge them into a uniform array.
+     * Get all configured redirects from database and package config and merge
+     * all into a consistent array stored in the cache.
      *
      * @return array
      */
