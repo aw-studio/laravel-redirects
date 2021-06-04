@@ -3,8 +3,8 @@
 	"description": "An easy solution to handle redirects in your Laravel application",
 	"require": {
 		"php": "^8.0",
-		"illuminate/database": "^8.43",
-		"illuminate/support": "^8.43",
+		"illuminate/database": "^8.40",
+		"illuminate/support": "^8.40",
 		"aw-studio/cshelper": "dev-main"
 	},
 	"license": "MIT",
