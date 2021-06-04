@@ -128,38 +128,4 @@ class Redirect extends Model
             $item->updateOldRedirectsToNewTarget($this, $finalUrl);
         }
     }
-
-    /**
-     * Return a valid redirect entity for a given path (from url).
-     * A redirect is valid if:
-     * - it has an url to redirect to (to url)
-     * - the is active.
-     *
-     * @param  string    $path
-     * @return self|null
-     */
-    public static function firstValidOrNull($path)
-    {
-        return static::where('from_url', $path === '/' ? $path : trim($path, '/'))
-            ->orWhere('from_url', 'like', $path)
-            ->whereNotNull('to_url')
-            ->whereActive()
-            ->latest()
-            ->first();
-    }
-
-    /**
-     * Return a all vallid entries starting with the first segement of the given
-     * path.
-     *
-     * @param  string    $path
-     * @return self|null
-     */
-    public static function findAllValidStartingWith($path)
-    {
-        return self::whereActive()
-            ->where('from_url', 'like', explode('/', $path)[0] . '%')
-            ->whereNotNull('to_url')
-            ->get();
-    }
 }
