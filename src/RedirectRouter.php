@@ -51,9 +51,9 @@ class RedirectRouter
     protected function requestIsBlockedForRedirect($request)
     {
         foreach (config('redirects.blocklist') as $blocked) {
-            if (Str::contains($blocked, $request->path())) {
-                return true;
-            }
+            $blocked = Str::of($blocked)->ltrim('/');
+
+            return Str::is($blocked, $request->path());
         }
 
         return false;

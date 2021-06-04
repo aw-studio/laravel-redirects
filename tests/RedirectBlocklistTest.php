@@ -26,4 +26,22 @@ class RedirectBlocklistTest extends TestCase
         $response = $this->get('admin');
         $response->assertSee('admin backend');
     }
+
+    public function test_blocklist_respects_wildcards()
+    {
+        $this->app['config']->set('redirects.blocklist', [
+            '/admin/*',
+        ]);
+
+        $this->app['config']->set('redirects.redirects', [
+            '/{url}' => 'de/{url}',
+        ]);
+
+        Route::get('admin/foo', function () {
+            return 'admin foo';
+        });
+
+        $response = $this->get('admin/foo');
+        $response->assertSee('admin foo');
+    }
 }
