@@ -3,7 +3,6 @@
 namespace AwStudio\Redirects;
 
 use AwStudio\Redirects\Models\Redirect;
-use Carbon\CarbonInterval;
 use Exception;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Routing\Router;
@@ -69,9 +68,7 @@ class RedirectRouter
      */
     protected function getRedirects()
     {
-        $ttl = CarbonInterval::minutes(60)->totalMinutes;
-
-        return $this->cache->remember('redirects', $ttl, function () {
+        return $this->cache->remember('redirects', config('redirects.ttl'), function () {
             $databaseRedirects = Redirect::whereActive()
                 ->get(['from_url', 'to_url', 'http_status_code'])
                 ->toArray();
