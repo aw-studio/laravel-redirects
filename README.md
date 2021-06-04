@@ -47,7 +47,7 @@ If you need to configure some (static) redirects you may do so in the `config/re
 
 ```php
 'redirects' => [
-    '/{url}' => '/en/{url}',
+    '/{any}' => '/en/{any}',
 ],
 ```
 
@@ -79,7 +79,4 @@ Redirect::create([
 
 ## Credits
 
-This package is inspired by and based on the discontinued
-
-- [Neurony/laravel-redirects](https://github.com/Neurony/laravel-redirects) and
-- [spatie/laravel-missing-page-redirector](https://github.com/spatie/laravel-missing-page-redirector).
+This package is inspired by and based on the discontinued [Neurony/laravel-redirects](https://github.com/Neurony/laravel-redirects) package and also takes inspiration from [spatie/laravel-missing-page-redirector](https://github.com/spatie/laravel-missing-page-redirector).
