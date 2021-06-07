@@ -11,14 +11,29 @@ use Symfony\Component\HttpFoundation\Request;
 class RedirectRouter
 {
     /**
+     * The router instance.
+     *
+     * @var Router
+     */
+    protected $router;
+
+    /**
+     * The CacheManger instance.
+     *
+     * @var CacheManager
+     */
+    protected $cache;
+
+    /**
      * Create a new RedirectRouter instance.
      *
-     * @param Router $router
+     * @param Router      $router
+     * @param CacheManger $router
      */
-    public function __construct(
-        protected Router $router,
-        protected CacheManager $cache
-    ) {
+    public function __construct($router, $cache)
+    {
+        $this->router = $router;
+        $this->cache = $cache;
     }
 
     /**
