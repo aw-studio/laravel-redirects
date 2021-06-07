@@ -10,8 +10,6 @@ use Illuminate\Support\ServiceProvider;
 
 class RedirectsServiceProvider extends ServiceProvider
 {
-    protected $router;
-
     /**
      * Register application services.
      *
