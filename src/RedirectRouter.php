@@ -84,7 +84,7 @@ class RedirectRouter
     protected function getRedirects()
     {
         return $this->cache->remember('redirects', config('redirects.ttl'), function () {
-            $databaseRedirects = Redirect::whereActive()
+            $databaseRedirects = app('redirect.model')->whereActive()
                 ->get(['from_url', 'to_url', 'http_status_code'])
                 ->toArray();
 
