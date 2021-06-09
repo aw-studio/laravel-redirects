@@ -2,16 +2,12 @@
 
 namespace AwStudio\Redirects;
 
-use AwStudio\Redirects\Middleware\RedirectRoutesMiddleware;
 use AwStudio\Redirects\Models\Redirect;
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
 class RedirectsServiceProvider extends ServiceProvider
 {
-    protected $router;
-
     /**
      * Register application services.
      *
@@ -31,9 +27,6 @@ class RedirectsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $kernel = $this->app->make(Kernel::class);
-        $kernel->pushMiddleware(RedirectRoutesMiddleware::class);
-
         $this->app->bind(RedirectRouter::class, function ($app) {
             $router = new Router($app['events']);
 

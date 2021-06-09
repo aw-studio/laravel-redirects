@@ -1,6 +1,7 @@
 # Laravel redirects
 
-This package provides an easy way to manage redirects as a model in your Laravel application.
+This package provides an easy way to create and manage redirects in your Laravel
+application.
 
 ## Installation
 
@@ -22,6 +23,18 @@ Run the migration
 php artisan migrate
 ```
 
+Add `AwStudio\Redirects\RedirectRoutesMiddleware` to `/app/Http/Kernel.php`:
+
+```php
+class Kernel extends HttpKernel
+{
+    protected $middleware = [
+        ...
+        \AwStudio\Redirects\RedirectRoutesMiddleware::class,
+    ],
+}
+```
+
 ## Usage
 
 ### Using database redirects
@@ -36,9 +49,11 @@ The provided `Redirect` model stores the following attributes:
 With this you may create redirects like this:
 
 ```php
-Redirect::create([...]);
-// or
-app('redirects.model')->create([...]);
+app('redirect.model')->create([
+    'from_url' => '/old',
+    'to_url' => '/new',
+    'http_status_code' => 301
+]);
 ```
 
 ### Using config redirects
@@ -71,7 +86,7 @@ Both, config and database redirects, support Laravel route parameters:
 
 //
 
-Redirect::create([
+app('redirect.model')->create([
     'from_url' => 'blog/{post}',
     'to_url' => 'news/{post}',
 ]);
