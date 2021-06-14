@@ -4,8 +4,7 @@
 	"require": {
 		"php": "^7.4 | ^8.0",
 		"illuminate/database": "^8.40",
-		"illuminate/support": "^8.40",
-		"aw-studio/cshelper": "dev-main"
+		"illuminate/support": "^8.40"
 	},
 	"license": "MIT",
 	"authors": [
