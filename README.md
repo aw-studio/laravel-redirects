@@ -23,14 +23,14 @@ Run the migration
 php artisan migrate
 ```
 
-Add `AwStudio\Redirects\RedirectRoutesMiddleware` to `/app/Http/Kernel.php`:
+Add `AwStudio\Redirects\Middleware\RedirectRoutesMiddleware` to `/app/Http/Kernel.php`:
 
 ```php
 class Kernel extends HttpKernel
 {
     protected $middleware = [
         ...
-        \AwStudio\Redirects\RedirectRoutesMiddleware::class,
+        \AwStudio\Redirects\Middleware\RedirectRoutesMiddleware::class,
     ],
 }
 ```
