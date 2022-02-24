@@ -1,39 +1,42 @@
 {
-	"name": "aw-studio/laravel-redirects",
-	"description": "An easy solution to handle redirects in your Laravel application",
-	"require": {
-		"php": "^7.4 | ^8.0",
-		"illuminate/database": "^8.40",
-		"illuminate/support": "^8.40"
-	},
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Lukas Heller",
-			"email": "lukas@aw-studio.de"
-		}
-	],
-	"autoload": {
-		"psr-4": {
-			"AwStudio\\Redirects\\": "src/"
-		}
-	},
-	"autoload-dev": {
-		"psr-4": {
-			"AwStudio\\Redirects\\Tests\\": "tests"
-		}
-	},
-	"extra": {
-		"laravel": {
-			"providers": [
-				"AwStudio\\Redirects\\RedirectsServiceProvider"
-			]
-		}
-	},
-	"minimum-stability": "dev",
-	"prefer-stable": true,
-	"require-dev": {
-		"orchestra/testbench": "^6.18",
-		"phpunit/phpunit": "^9.5"
-	}
+    "name": "aw-studio/laravel-redirects",
+    "description": "An easy solution to handle redirects in your Laravel application",
+    "require": {
+        "php": "^7.4 | ^8.0",
+        "illuminate/database": "^8.40|^9.0",
+        "illuminate/support": "^8.40|^9.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lukas Heller",
+            "email": "lukas@aw-studio.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "AwStudio\\Redirects\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AwStudio\\Redirects\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AwStudio\\Redirects\\RedirectsServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-main": "0.x"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "orchestra/testbench": "^6.18",
+        "phpunit/phpunit": "^9.5"
+    }
 }
