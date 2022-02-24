@@ -29,9 +29,6 @@
                 "AwStudio\\Redirects\\RedirectsServiceProvider"
             ]
         },
-        "branch-alias": {
-            "dev-main": "0.x"
-        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
