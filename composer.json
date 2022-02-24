@@ -28,7 +28,7 @@
             "providers": [
                 "AwStudio\\Redirects\\RedirectsServiceProvider"
             ]
-        },
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
