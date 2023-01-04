@@ -3,8 +3,8 @@
 namespace AwStudio\Redirects;
 
 use Exception;
-use Illuminate\Cache\CacheManager;
 use Illuminate\Routing\Router;
+use Illuminate\Cache\CacheManager;
 use Symfony\Component\HttpFoundation\Request;
 
 class RedirectRouter
@@ -59,16 +59,18 @@ class RedirectRouter
      */
     protected function handleRedirect(Request $request, $redirects)
     {
-        try {
-            foreach ($redirects as $redirect) {
-                if (
-                    $redirect['from_url'] == $request->path()
-                ) {
-                    $redirectUrl = $this->resolveRouterParameters($redirect['to_url']);
+        $router = new Router(app('events'), app());
 
-                    return redirect($redirectUrl, $redirect['http_status_code']);
-                }
-            }
+        foreach ($redirects as $redirect) {
+            $router->get($redirect['from_url'], function () use ($redirect, $router) {
+                $redirectUrl = $this->resolveRouterParameters($redirect['to_url'], $router);
+
+                return redirect($redirectUrl, $redirect['http_status_code']);
+            });
+        }
+
+        try {
+            return $router->dispatch($request);
         } catch (Exception $e) {
             return;
         }
@@ -109,9 +111,9 @@ class RedirectRouter
      * @param  string $redirectUrl
      * @return string
      */
-    protected function resolveRouterParameters(string $redirectUrl): string
+    protected function resolveRouterParameters(string $redirectUrl, $router): string
     {
-        foreach ($this->router->getCurrentRoute()?->parameters() ?? [] as $key => $value) {
+        foreach ($router->getCurrentRoute()?->parameters() ?? [] as $key => $value) {
             $redirectUrl = str_replace("{{$key}}", $value, $redirectUrl);
         }
 
