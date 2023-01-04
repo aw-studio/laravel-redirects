@@ -2,7 +2,6 @@
 
 namespace AwStudio\Redirects;
 
-use AwStudio\Redirects\Models\Redirect;
 use Exception;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Routing\Router;
@@ -60,16 +59,16 @@ class RedirectRouter
      */
     protected function handleRedirect(Request $request, $redirects)
     {
-        collect($redirects)->each(function ($redirect) {
-            $this->router->get($redirect['from_url'], function () use ($redirect) {
-                $redirectUrl = $this->resolveRouterParameters($redirect['to_url']);
-
-                return redirect($redirectUrl, $redirect['http_status_code']);
-            });
-        });
-
         try {
-            return $this->router->dispatch($request);
+            foreach ($redirects as $redirect) {
+                if (
+                    $redirect['from_url'] == $request->path()
+                ) {
+                    $redirectUrl = $this->resolveRouterParameters($redirect['to_url']);
+
+                    return redirect($redirectUrl, $redirect['http_status_code']);
+                }
+            }
         } catch (Exception $e) {
             return;
         }
@@ -112,7 +111,7 @@ class RedirectRouter
      */
     protected function resolveRouterParameters(string $redirectUrl): string
     {
-        foreach ($this->router->getCurrentRoute()->parameters() as $key => $value) {
+        foreach ($this->router->getCurrentRoute()?->parameters() ?? [] as $key => $value) {
             $redirectUrl = str_replace("{{$key}}", $value, $redirectUrl);
         }
 
