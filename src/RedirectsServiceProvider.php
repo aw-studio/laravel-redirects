@@ -15,9 +15,9 @@ class RedirectsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->alias(Redirect::class, 'redirect.model');
-
         $this->mergeConfigFrom(__DIR__ . '/../config/redirects.php', 'redirects');
+
+        $this->app->alias(config('redirects.model'), 'redirect.model');
     }
 
     /**
