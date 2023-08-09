@@ -61,7 +61,7 @@ class RedirectRouter
     protected function handleRedirect(Request $request, $redirects)
     {
         collect($redirects)->each(function ($redirect) {
-            $this->router->get($redirect['from_url'], function () use ($redirect) {
+            $this->router->get(urldecode($redirect['from_url']), function () use ($redirect) {
                 $redirectUrl = $this->resolveRouterParameters($redirect['to_url']);
 
                 return redirect($redirectUrl, $redirect['http_status_code']);
